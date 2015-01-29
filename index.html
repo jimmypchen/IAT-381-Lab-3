@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>Lab 3 Challenge</title>
+    <link rel="stylesheet" href="../shared/css/base.css" />
+  </head>
+  <body>
+    <h1>Kill Time</h1>
+    <div id="container">
+      asdgasdg
+
+    </div>
+    <div id="container2">
+      asdgasdg
+
+    </div>
+
+    <script src="../shared/thirdparty/es5-shim.min.js"></script>
+    <script src="../shared/thirdparty/es5-sham.min.js"></script>
+    <script src="../shared/thirdparty/console-polyfill.js"></script>
+    <script src="../../build/react.js"></script>
+    <script src="../../build/JSXTransformer.js"></script>
+    <script type="text/jsx">
+      var ExampleApplication = React.createClass({
+              render: function() {
+                var elapsed = Math.round(this.props.elapsed  / 100);
+                var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
+                var message =
+                  'You have wasted ' + seconds + ' seconds of your life.';
+
+                return <p>{message}</p>;
+              }
+            });
+            var start = new Date().getTime();
+            setInterval(function() {
+              React.render(
+                <ExampleApplication elapsed={new Date().getTime() - start} />,
+                document.getElementById('container')
+              );
+            }, 50);
+    </script>
+    <script type="text/jsx">
+        var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+              var INTERVAL = 2000;
+
+              var AnimateDemo = React.createClass({
+                getInitialState: function() {
+                  return {start: 0};
+                },
+
+                componentDidMount: function() {
+                  this.interval = setInterval(this.tick, INTERVAL);
+                },
+
+                componentWillUnmount: function() {
+                  clearInterval(this.interval);
+                },
+
+                tick: function() {
+                  this.setState({start: this.state.start + 1});
+                },
+
+                render: function() {
+                  var children = [];
+                  var pos = 0;
+                  var colors = ['red', 'gray', 'blue'];
+                  for (var i = this.state.start; i < this.state.start + 3; i++) {
+                    var style = {
+                      left: pos * 128,
+                      background: colors[i % 3]
+                    };
+                    pos++;
+                    children.push(<div key={i} className="animateItem" style={style}>{i}</div>);
+                  }
+                  return (
+                    <CSSTransitionGroup
+                      className="animateExample"
+                      transitionName="example">
+                      {children}
+                    </CSSTransitionGroup>
+                  );
+                }
+              });
+
+              React.render(
+                <AnimateDemo />,
+                document.getElementById('container2')
+              );
+    </script>
+  </body>
+</html>
